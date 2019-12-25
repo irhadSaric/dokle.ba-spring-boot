@@ -8,22 +8,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
 public class HomeController {
     @GetMapping("/")
-    public ModelAndView home(){
+    public ModelAndView home_(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("view/home");
+        modelAndView.setViewName("view/register");
         return modelAndView;
     }
 
-    @PostMapping(value = "/test")
-    public ModelAndView test(@ModelAttribute User user){
+    @GetMapping("/home")
+    public ModelAndView home(HttpSession session){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("hahu");
-        modelAndView.addObject("user", user);
+        modelAndView.setViewName("view/home");
+        modelAndView.addObject("id", session.getAttribute("id"));
         return modelAndView;
     }
 }
