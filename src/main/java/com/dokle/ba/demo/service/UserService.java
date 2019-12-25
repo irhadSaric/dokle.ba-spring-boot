@@ -1,6 +1,8 @@
 package com.dokle.ba.demo.service;
 
+import com.dokle.ba.demo.db.entity.Status;
 import com.dokle.ba.demo.db.entity.User;
+import com.dokle.ba.demo.db.repository.StatusRepository;
 import com.dokle.ba.demo.db.repository.UserRepository;
 import com.dokle.ba.demo.service.dtos.LoginRequest;
 import com.dokle.ba.demo.service.dtos.LoginResponse;
@@ -19,6 +21,9 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private StatusRepository statusRepository;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -74,8 +79,14 @@ public class UserService {
             }
             else {
                 if (bCryptPasswordEncoder.matches(request.getPassword(), user.getPassword())){
-                    loginResponse.setUser(user);
-                    loginResponse.setPassed(true);
+                    Status activeStatus = statusRepository.getStatusByName("Active user");
+                    if(user.getStatus().equals(activeStatus)){
+                        loginResponse.setUser(user);
+                        loginResponse.setPassed(true);
+                    }
+                    else{
+                        loginResponse.setPassed(false);
+                    }
                 }
                 else {
                     loginResponse.setPassed(false);

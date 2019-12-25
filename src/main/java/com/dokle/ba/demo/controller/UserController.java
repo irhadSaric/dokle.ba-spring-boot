@@ -71,7 +71,7 @@ public class UserController {
             response.sendRedirect("/home");
         }
         else{
-            response.sendRedirect("/api/login?message=Wrong email or password");
+            response.sendRedirect("/api/user/login?message=Wrong email or password or not activated");
         }
     }
 
