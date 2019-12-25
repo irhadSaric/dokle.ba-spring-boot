@@ -50,7 +50,7 @@ public class UserRepository {
                 .getSingleResult();
     }
 
-    public User activate(Long userId, Short activationCode) throws NullPointerException {
+    public User activate(Long userId, Short activationCode) throws NullPointerException, NoResultException {
         return (User) entityManager.createNamedStoredProcedureQuery("activateUser")
                 .setParameter("user_id_in", userId)
                 .setParameter("activation_code_in", activationCode)

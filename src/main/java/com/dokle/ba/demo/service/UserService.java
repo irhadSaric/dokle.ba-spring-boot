@@ -93,7 +93,7 @@ public class UserService {
         try {
             return userRepository.activate(userId, activationCode);
         }
-        catch (NullPointerException exception){
+        catch (NullPointerException | NoResultException exception){
             return null;
         }
     }

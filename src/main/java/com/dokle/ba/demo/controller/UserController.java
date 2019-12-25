@@ -48,7 +48,7 @@ public class UserController {
     public void activate(@PathVariable Long userId, @PathVariable Short activationCode, HttpServletResponse response) throws IOException {
         User user = userService.activate(userId, activationCode);
         if(user == null){
-            response.sendRedirect("/api/user/register?message=Wrong activation code");
+            response.sendRedirect("/api/user/register?message=Wrong activation link");
         }
         else {
             response.sendRedirect("/api/user/login?message=Activation successful. Please login");
