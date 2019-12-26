@@ -35,7 +35,7 @@ public class UserController {
         modelAndView.setViewName("view/register");
         User user1 = userService.register(user);
         if(user1 != null){
-            modelAndView.addObject("message", "Check your mail for activation code");
+            modelAndView.addObject("successMessage", "Check your mail for activation code");
             session.setAttribute("user", user1);
         }
         else {

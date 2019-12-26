@@ -16,7 +16,7 @@ public class HomeController {
     @GetMapping("/")
     public ModelAndView home_(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("view/register");
+        modelAndView.setViewName("view/login");
         return modelAndView;
     }
 
