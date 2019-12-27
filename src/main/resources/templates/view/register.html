@@ -48,7 +48,7 @@
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <span th:text="${successMessage}"></span>
                         </div>
-                        <form id="login-form" class="form" action="/api/user/register" method="post">
+                        <form id="login-form" class="form" th:action="@{/api/user/register}" method="post">
                             <h3 class="text-center text-info">Register form</h3>
                             <div class="form-group">
                                 <label for="firstName" class="text-info">First name:</label><br>

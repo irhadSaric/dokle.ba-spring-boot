@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 public class HomeController {
@@ -21,9 +23,12 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public ModelAndView home(HttpSession session){
+    public ModelAndView home(HttpSession session, HttpServletResponse response) throws IOException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view/home");
+        if(session.getAttribute("id") == null){
+            response.sendRedirect("/api/user/login?message=You have to login");
+        }
         modelAndView.addObject("id", session.getAttribute("id"));
         return modelAndView;
     }

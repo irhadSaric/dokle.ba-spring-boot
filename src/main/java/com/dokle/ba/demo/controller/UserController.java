@@ -6,6 +6,8 @@ import com.dokle.ba.demo.service.dtos.LoginRequest;
 import com.dokle.ba.demo.service.dtos.LoginResponse;
 import com.dokle.ba.demo.service.dtos.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -71,8 +73,16 @@ public class UserController {
             response.sendRedirect("/home");
         }
         else{
+            //return false;//"/api/user/login?message=Wrong email or password or not activated";
             response.sendRedirect("/api/user/login?message=Wrong email or password or not activated");
         }
+    }
+
+    @GetMapping("/logout")
+    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
+        session.removeAttribute("id");
+        session.invalidate();
+        response.sendRedirect("/api/user/login?message=Successfully logged out");
     }
 
     @GetMapping("/all")

@@ -6,5 +6,6 @@
 </head>
 <body>
 <h3 th:text="${session.id != null} ? ${session.id}"></h3>
+<a th:href="@{/api/user/logout}">Logout</a>
 </body>
 </html>
