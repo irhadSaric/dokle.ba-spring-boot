@@ -1,11 +1,103 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://thymeleaf.org">
+<html lang="en"
+      xmlns:th="https://thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://thymeleaf.org ">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" th:href="@{/style.css}"/>
+    <script th:src="@{/webjars/jquery/3.4.1/dist/jquery.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.16.0/dist/umd/popper.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+    <title>Register</title>
 </head>
-<body>
-<h3 th:text="${session.id != null} ? ${session.id}"></h3>
-<a th:href="@{/api/user/logout}">Logout</a>
+<body class="bg-dark">
+    <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/home}">
+                        <i class="fa fa-home"></i>
+                        Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{'/api/user/messages/'+${session.id}}">
+                        <i class="fa fa-envelope-o">
+                            <span class="badge badge-danger">11</span>
+                        </i>
+                        Messages
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/api/path/add/}">
+                        <i class="fa fa-plus"></i>
+                        Create Path
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user">
+                        </i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        <a class="dropdown-item" th:href="@{'/api/user/profile/'+${session.id}}">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{/api/user/logout}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 bg-white fit-content my-shadow">
+                <div class="create-path">
+                    <i class="fa fa-filter"></i>
+                    Filter
+                </div>
+                <hr>
+                <div class="create-path">
+                    <i class="fa fa-filter"></i>
+                    Filter
+                </div>
+            </div>
+            <div class="col-sm-8 offset-sm-1">
+                <a th:href="@{/api/paths/add/}" class="no-underline bg-white my-shadow">
+                    <div class="create-path bg-white my-shadow">
+                        <i class="fa fa-plus"></i>
+                            Create path
+                    </div>
+                </a>
+                <br>
+                <div class="bg-white my-shadow">
+                    pokusaj
+                </div>
+                <br>
+                <div class="bg-white my-shadow">
+                    pokusaj
+                </div>
+                <br>
+                <div class="bg-white my-shadow">
+                    pokusaj
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,7 +1,11 @@
 package com.dokle.ba.demo.controller;
 
+import com.dokle.ba.demo.db.entity.Details;
 import com.dokle.ba.demo.db.entity.User;
+import com.dokle.ba.demo.service.DetailsService;
+import com.dokle.ba.demo.service.ImpressionService;
 import com.dokle.ba.demo.service.UserService;
+import com.dokle.ba.demo.service.dtos.ImpressionResponse;
 import com.dokle.ba.demo.service.dtos.LoginRequest;
 import com.dokle.ba.demo.service.dtos.LoginResponse;
 import com.dokle.ba.demo.service.dtos.UserResponse;
@@ -15,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -22,6 +27,12 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ImpressionService impressionService;
+
+    @Autowired
+    private DetailsService detailsService;
 
     @GetMapping("/register")
     public ModelAndView register(@RequestParam(required = false) String message){
@@ -93,6 +104,27 @@ public class UserController {
     @GetMapping("/find/{id}")
     public User findById(@PathVariable("id") Long id){
         return userService.findById(id);
+    }
+
+    @GetMapping("/profile/{id}")
+    public ModelAndView profile(@PathVariable("id") Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        User user = findById(id);
+        Details details = detailsService.getDetailsByUserId(id);
+        String image = null;
+        if(details.getAvatar() != null){
+            image = Base64.getEncoder().encodeToString(details.getAvatar());
+        }
+        //System.out.println(details);
+        List<ImpressionResponse> impressionResponseList = impressionService.getAllImpressionsForUser(id);
+        System.out.println(impressionResponseList);
+        modelAndView.setViewName("view/profile");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("impressions", impressionResponseList);
+        modelAndView.addObject("details", details);
+        modelAndView.addObject("avatar", image);
+        //modelAndView.addObject("impressions",)
+        return modelAndView;
     }
 
 }

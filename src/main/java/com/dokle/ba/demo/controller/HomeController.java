@@ -26,9 +26,9 @@ public class HomeController {
     public ModelAndView home(HttpSession session, HttpServletResponse response) throws IOException {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("view/home");
-        if(session.getAttribute("id") == null){
+        /*if(session.getAttribute("id") == null){
             response.sendRedirect("/api/user/login?message=You have to login");
-        }
+        }*/
         modelAndView.addObject("id", session.getAttribute("id"));
         return modelAndView;
     }

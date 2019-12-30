@@ -33,6 +33,17 @@ import java.io.Serializable;
         },
         resultSetMappings = { "user_result_mapping"}),
         @NamedStoredProcedureQuery(
+                name= "registerUserV3",
+                procedureName= "REGISTER_USER_V3",
+                parameters= {
+                        @StoredProcedureParameter(mode= ParameterMode.IN, name= "first_name_in", type= String.class),
+                        @StoredProcedureParameter(mode= ParameterMode.IN, name= "last_name_in", type= String.class),
+                        @StoredProcedureParameter(mode= ParameterMode.IN, name= "email_in", type= String.class),
+                        @StoredProcedureParameter(mode= ParameterMode.IN, name= "password_in", type= String.class),
+                        @StoredProcedureParameter(mode= ParameterMode.REF_CURSOR, name= "response", type= UserResponse.class)
+                },
+                resultSetMappings = { "user_result_mapping"}),
+        @NamedStoredProcedureQuery(
                 name= "getUsers",
                 procedureName= "GET_USERS",
                 parameters= {
@@ -119,6 +130,10 @@ public class User extends BaseEntity implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.status = status;
+    }
+
+    public User(Long id){
+        this.setId(id);
     }
 
     public String getFirstName() {

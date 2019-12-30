@@ -21,7 +21,7 @@ public class UserRepository {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User register(User user) throws NoResultException{
-        return (User) entityManager.createNamedStoredProcedureQuery("registerUserV2")
+        return (User) entityManager.createNamedStoredProcedureQuery("registerUserV3")
                             .setParameter("first_name_in", user.getFirstName())
                             .setParameter("last_name_in", user.getLastName())
                             .setParameter("email_in", user.getEmail())
