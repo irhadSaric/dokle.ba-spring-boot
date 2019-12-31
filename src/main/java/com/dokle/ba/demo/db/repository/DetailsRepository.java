@@ -1,6 +1,8 @@
 package com.dokle.ba.demo.db.repository;
 
+import com.dokle.ba.demo.db.entity.Country;
 import com.dokle.ba.demo.db.entity.Details;
+import com.dokle.ba.demo.service.dtos.DetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @Repository
 public class DetailsRepository {
@@ -35,10 +38,10 @@ public class DetailsRepository {
     }
 
     @Transactional
-    public void editDetails(Long id, Details details) {
+    public void editDetails(Long id, DetailsDTO details) {
         Short country_id = 0;
         if(details.getCountry() != null){
-            country_id = details.getCountry().getId();
+            country_id = details.getCountry();
         }
         System.out.println("Repository" + details);
         entityManager.createNamedStoredProcedureQuery("editDetailsV2")
@@ -47,5 +50,11 @@ public class DetailsRepository {
                 .setParameter("country_in", country_id)
                 .setParameter("phone_number_in", details.getPhoneNumber())
                 .execute();
+    }
+
+    @Transactional
+    public List<Country> getCountries() {
+        return (List<Country>) entityManager.createNamedStoredProcedureQuery("getCountries")
+                .getResultList();
     }
 }

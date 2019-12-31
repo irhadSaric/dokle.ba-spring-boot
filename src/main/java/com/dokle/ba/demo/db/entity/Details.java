@@ -101,7 +101,7 @@ public class Details extends BaseEntity{
                 "avatar=" + Arrays.toString(avatar) +
                 ", city='" + city + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", country=" + country +
+                ", country=" + country.getName() +
                 '}';
     }
 }

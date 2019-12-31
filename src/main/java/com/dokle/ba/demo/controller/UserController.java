@@ -1,14 +1,12 @@
 package com.dokle.ba.demo.controller;
 
+import com.dokle.ba.demo.db.entity.Country;
 import com.dokle.ba.demo.db.entity.Details;
 import com.dokle.ba.demo.db.entity.User;
 import com.dokle.ba.demo.service.DetailsService;
 import com.dokle.ba.demo.service.ImpressionService;
 import com.dokle.ba.demo.service.UserService;
-import com.dokle.ba.demo.service.dtos.ImpressionResponse;
-import com.dokle.ba.demo.service.dtos.LoginRequest;
-import com.dokle.ba.demo.service.dtos.LoginResponse;
-import com.dokle.ba.demo.service.dtos.UserResponse;
+import com.dokle.ba.demo.service.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -111,6 +109,16 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         User user = findById(id);
         Details details = detailsService.getDetailsByUserId(id);
+        DetailsDTO detailsDTO;
+        if (details.getCountry() == null){
+            detailsDTO = new DetailsDTO(details.getAvatar(), details.getCity(), details.getPhoneNumber(), (short) 0);
+        }
+        else
+        {
+            detailsDTO = new DetailsDTO(details.getAvatar(), details.getCity(), details.getPhoneNumber(), details.getCountry().getId());
+        }
+
+        List<Country> countries = detailsService.getCountries();
         String image = null;
         if(details.getAvatar() != null){
             image = Base64.getEncoder().encodeToString(details.getAvatar());
@@ -122,7 +130,9 @@ public class UserController {
         modelAndView.addObject("user", user);
         modelAndView.addObject("impressions", impressionResponseList);
         modelAndView.addObject("details", details);
+        modelAndView.addObject("detailsDTO", detailsDTO);
         modelAndView.addObject("avatar", image);
+        modelAndView.addObject("countries", countries);
         //modelAndView.addObject("impressions",)
         return modelAndView;
     }

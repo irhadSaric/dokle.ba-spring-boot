@@ -1,13 +1,16 @@
 package com.dokle.ba.demo.service;
 
+import com.dokle.ba.demo.db.entity.Country;
 import com.dokle.ba.demo.db.entity.Details;
 import com.dokle.ba.demo.db.repository.DetailsRepository;
+import com.dokle.ba.demo.service.dtos.DetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class DetailsService {
@@ -33,8 +36,12 @@ public class DetailsService {
         }
     }
 
-    public void editDetails(Long id, Details details) {
+    public void editDetails(Long id, DetailsDTO details) {
         System.out.println("Service" + details);
         detailsRepository.editDetails(id, details);
+    }
+
+    public List<Country> getCountries() {
+        return detailsRepository.getCountries();
     }
 }
