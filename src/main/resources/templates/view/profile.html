@@ -131,6 +131,7 @@
                     Reviews
                 </div>
                 <hr>
+                <span th:if="${#lists.isEmpty(impressions)}" style="padding: 10px;">User has no impressions</span>
                 <div th:if="${session.id != null and session.id != user.id}">
                     <form th:action="'/api/impression/add/'+${user.id}+'/'+${session.id}" method="post" class="form-group">
                         <textarea name="impression"></textarea>
@@ -150,13 +151,58 @@
                 <br>
             </div>
         </div>
+
+        <!------------------------------------------------------------------->
+
         <div class="col-sm-8 offset-sm-1">
-            <a th:href="@{/api/paths/add/}" class="no-underline bg-white my-shadow">
+            <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="no-underline bg-white my-shadow">
                 <div class="create-path bg-white my-shadow">
                     <i class="fa fa-plus"></i>
                     Create path
                 </div>
             </a>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form method="post" th:action="@{/api/path/add}" th:object="${path}">
+                        <div class="form-group">
+                            <label for="startingPoint">Starting point</label>
+                            <input type="text" class="form-control" id="startingPoint" placeholder="Starting point" th:field="*{startingPoint}">
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">Destination</label>
+                            <input type="text" class="form-control" id="destination" placeholder="Destination" th:field="*{destination}">
+                        </div>
+                        <div class="form-group">
+                            <label for="dateinput">Date</label>
+                            <input type="datetime-local" class="form-control" id="dateinput" th:field="*{date}">
+                        </div>
+                        <!--<div class="form-group">
+                            <label for="timeinput">Time</label>
+                            <input type="time" class="form-control" id="timeinput" th:field="*{time}">
+                        </div>-->
+                        <div class="form-group">
+                            <label for="countryinput">Country</label>
+                            <select class="form-control" th:field="*{country}" id="countryinput">
+                                <option th:each="country_param : ${countries}" th:value="${country_param.id}" th:text="${country_param.name}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="paymentinput">Payment</label>
+                            <select class="form-control" th:field="*{payment}" id="paymentinput">
+                                <option th:each="payment_param : ${payments}" th:value="${payment_param.id}" th:text="${payment_param.name}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">Submit</button>
+                    </form>
+                    <!--<form method="post" th:action="@{/api/user/ispis}" th:object="${path}">
+                        <input type="text" placeholder="Starting point" th:field="*{startingPoint}"/><br />
+                        <input type="text" placeholder="Destination" th:field="*{destination}"/><br />
+                        <input type="date" placeholder="Date" th:field="*{date}"/><br />
+                        <input type="time" placeholder="Date" th:field="*{time}"/><br />
+                        <input type="submit">
+                    </form>-->
+                </div>
+            </div>
             <br>
             <div class="bg-white my-shadow">
                 <span th:text="${session.id}"></span>

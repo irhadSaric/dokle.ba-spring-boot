@@ -1,8 +1,6 @@
 package com.dokle.ba.demo.controller;
 
-import com.dokle.ba.demo.db.entity.Country;
-import com.dokle.ba.demo.db.entity.Details;
-import com.dokle.ba.demo.db.entity.User;
+import com.dokle.ba.demo.db.entity.*;
 import com.dokle.ba.demo.service.DetailsService;
 import com.dokle.ba.demo.service.ImpressionService;
 import com.dokle.ba.demo.service.UserService;
@@ -18,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -110,6 +109,8 @@ public class UserController {
         User user = findById(id);
         Details details = detailsService.getDetailsByUserId(id);
         DetailsDTO detailsDTO;
+        PathDTO pathDTO = new PathDTO();
+
         if (details.getCountry() == null){
             detailsDTO = new DetailsDTO(details.getAvatar(), details.getCity(), details.getPhoneNumber(), (short) 0);
         }
@@ -119,6 +120,8 @@ public class UserController {
         }
 
         List<Country> countries = detailsService.getCountries();
+        List<Payment> payments = detailsService.getPayments();
+        System.out.println(payments);
         String image = null;
         if(details.getAvatar() != null){
             image = Base64.getEncoder().encodeToString(details.getAvatar());
@@ -133,8 +136,17 @@ public class UserController {
         modelAndView.addObject("detailsDTO", detailsDTO);
         modelAndView.addObject("avatar", image);
         modelAndView.addObject("countries", countries);
+        modelAndView.addObject("path", pathDTO);
+        modelAndView.addObject("payments", payments);
         //modelAndView.addObject("impressions",)
         return modelAndView;
+    }
+
+    @PostMapping("/ispis")
+    public void ispis(PathDTO request){
+        System.out.println(request);
+        Date date = new Date();
+
     }
 
 }

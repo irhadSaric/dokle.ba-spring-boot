@@ -2,6 +2,7 @@ package com.dokle.ba.demo.controller;
 
 import com.dokle.ba.demo.db.entity.Country;
 import com.dokle.ba.demo.db.entity.Details;
+import com.dokle.ba.demo.db.entity.Payment;
 import com.dokle.ba.demo.service.DetailsService;
 import com.dokle.ba.demo.service.dtos.DetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class DetailsController {
     public List<Country> getCountries(){
         return detailsService.getCountries();
     }
+
+    @GetMapping("/get/payments")
+    public List<Payment> getPayments() { return detailsService.getPayments(); }
 
     @GetMapping("/get/{id}")
     public Details getDetailsByUserId(@PathVariable("id") Long id){

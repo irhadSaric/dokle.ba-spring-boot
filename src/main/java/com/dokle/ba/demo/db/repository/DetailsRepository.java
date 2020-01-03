@@ -2,6 +2,7 @@ package com.dokle.ba.demo.db.repository;
 
 import com.dokle.ba.demo.db.entity.Country;
 import com.dokle.ba.demo.db.entity.Details;
+import com.dokle.ba.demo.db.entity.Payment;
 import com.dokle.ba.demo.service.dtos.DetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -55,6 +56,12 @@ public class DetailsRepository {
     @Transactional
     public List<Country> getCountries() {
         return (List<Country>) entityManager.createNamedStoredProcedureQuery("getCountries")
+                .getResultList();
+    }
+
+    @Transactional
+    public List<Payment> getPayments() {
+        return (List<Payment>) entityManager.createNamedStoredProcedureQuery("getPayments")
                 .getResultList();
     }
 }

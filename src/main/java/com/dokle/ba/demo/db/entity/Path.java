@@ -1,10 +1,85 @@
 package com.dokle.ba.demo.db.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Table(name = "paths")
+@NamedStoredProcedureQueries(value = {
+        @NamedStoredProcedureQuery(
+                name = "addPath",
+                procedureName = "ADD_PATH",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "date_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "time_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "country_in", type = Short.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "starting_point_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "destination_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "payment_int", type = Short.class)
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addPathV3",
+                procedureName = "ADD_PATH_V3",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "starting_point_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "destination_in", type = String.class),
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addPathV4",
+                procedureName = "ADD_PATH_V4",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "country_in", type = Short.class)
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addPathV5",
+                procedureName = "ADD_PATH_V5",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "date_in", type = String.class)
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addPathV6",
+                procedureName = "ADD_PATH_V6",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "date_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "time_in", type = String.class)
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addPathV7",
+                procedureName = "ADD_PATH_V7",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "date_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "time_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "payment_in", type = Short.class)
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addPathV8",
+                procedureName = "ADD_PATH_V8",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "date_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "time_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "country_in", type = Short.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "starting_point_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "destination_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "payment_in", type = Short.class)
+                }
+        )
+})
 public class Path extends BaseEntity {
     @Column(name = "starting_point")
     private String startingPoint;

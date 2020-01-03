@@ -2,6 +2,7 @@ package com.dokle.ba.demo.service;
 
 import com.dokle.ba.demo.db.entity.Country;
 import com.dokle.ba.demo.db.entity.Details;
+import com.dokle.ba.demo.db.entity.Payment;
 import com.dokle.ba.demo.db.repository.DetailsRepository;
 import com.dokle.ba.demo.service.dtos.DetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,9 @@ public class DetailsService {
 
     public List<Country> getCountries() {
         return detailsRepository.getCountries();
+    }
+
+    public List<Payment> getPayments() {
+        return detailsRepository.getPayments();
     }
 }
