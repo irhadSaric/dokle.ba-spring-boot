@@ -1,5 +1,6 @@
 package com.dokle.ba.demo.controller;
 
+import com.dokle.ba.demo.db.entity.Path;
 import com.dokle.ba.demo.service.PathService;
 import com.dokle.ba.demo.service.dtos.PathDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/path")
@@ -33,5 +35,10 @@ public class PathController {
         pathService.addPath(pathDTO, id);
 
         response.sendRedirect("/api/user/profile/"+session.getAttribute("id").toString());
+    }
+
+    @GetMapping("/get/{id}")
+    public List<Path> getAllForUser(@PathVariable Long id){
+        return pathService.getAllForUser(id);
     }
 }

@@ -1,12 +1,15 @@
 package com.dokle.ba.demo.db.repository;
 
+import com.dokle.ba.demo.db.entity.Path;
 import com.dokle.ba.demo.service.dtos.PathDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Repository
 public class PathRepository {
@@ -120,5 +123,11 @@ public class PathRepository {
                 .setParameter("destination_in", pathDTO.getDestination())
                 .setParameter("payment_in", pathDTO.getPayment())
                 .execute();
+    }
+
+    public List<Path> getAllForUser(Long id) throws NoResultException {
+        return (List<Path>) entityManager.createNamedStoredProcedureQuery("getPathsByUserId")
+                .setParameter("id_in", id)
+                .getResultList();
     }
 }

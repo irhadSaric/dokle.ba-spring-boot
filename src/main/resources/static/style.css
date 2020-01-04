@@ -158,5 +158,5 @@
 
 .impression p{
     display:inline;
-    word-break: break-all;
+    word-break: break-word;
 }

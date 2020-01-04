@@ -3,6 +3,7 @@ package com.dokle.ba.demo.controller;
 import com.dokle.ba.demo.db.entity.*;
 import com.dokle.ba.demo.service.DetailsService;
 import com.dokle.ba.demo.service.ImpressionService;
+import com.dokle.ba.demo.service.PathService;
 import com.dokle.ba.demo.service.UserService;
 import com.dokle.ba.demo.service.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class UserController {
 
     @Autowired
     private DetailsService detailsService;
+
+    @Autowired
+    private PathService pathService;
 
     @GetMapping("/register")
     public ModelAndView register(@RequestParam(required = false) String message){
@@ -121,7 +125,7 @@ public class UserController {
 
         List<Country> countries = detailsService.getCountries();
         List<Payment> payments = detailsService.getPayments();
-        System.out.println(payments);
+        List<Path> paths = pathService.getAllForUser(id);
         String image = null;
         if(details.getAvatar() != null){
             image = Base64.getEncoder().encodeToString(details.getAvatar());
@@ -138,6 +142,8 @@ public class UserController {
         modelAndView.addObject("countries", countries);
         modelAndView.addObject("path", pathDTO);
         modelAndView.addObject("payments", payments);
+        System.out.println(paths);
+        modelAndView.addObject("paths", paths);
         //modelAndView.addObject("impressions",)
         return modelAndView;
     }

@@ -78,6 +78,15 @@ import java.util.Date;
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "destination_in", type = String.class),
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "payment_in", type = Short.class)
                 }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "getPathsByUserId",
+                procedureName = "GET_PATHS_BY_USER_ID",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Path.class)
+                },
+                resultClasses = { Path.class }
         )
 })
 public class Path extends BaseEntity {
