@@ -78,23 +78,63 @@
                 </div>
             </div>
             <div class="col-sm-8 offset-sm-1">
-                <a th:href="@{/api/paths/add/}" class="no-underline bg-white my-shadow">
+                <a th:if="${session.id != null}" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="no-underline bg-white my-shadow">
                     <div class="create-path bg-white my-shadow">
                         <i class="fa fa-plus"></i>
-                            Create path
+                        Create path
                     </div>
                 </a>
-                <br>
-                <div class="bg-white my-shadow">
-                    pokusaj
+                <div th:if="${session.id != null}" class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <form method="post" th:action="@{/api/path/add}" th:object="${path}">
+                            <div class="form-group">
+                                <label for="startingPoint">Starting point</label>
+                                <input type="text" class="form-control" id="startingPoint" placeholder="Starting point" th:field="*{startingPoint}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="destination">Destination</label>
+                                <input type="text" class="form-control" id="destination" placeholder="Destination" th:field="*{destination}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dateinput">Date</label>
+                                <input type="datetime-local" class="form-control" id="dateinput" th:field="*{date}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="countryinput">Country</label>
+                                <select class="form-control" th:field="*{country}" id="countryinput">
+                                    <option th:each="country_param : ${countries}" th:value="${country_param.id}" th:text="${country_param.name}"></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="paymentinput">Payment</label>
+                                <select class="form-control" th:field="*{payment}" id="paymentinput">
+                                    <option th:each="payment_param : ${payments}" th:value="${payment_param.id}" th:text="${payment_param.name}"></option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-secondary">Submit</button>
+                        </form>
+                    </div>
                 </div>
-                <br>
-                <div class="bg-white my-shadow">
-                    pokusaj
-                </div>
-                <br>
-                <div class="bg-white my-shadow">
-                    pokusaj
+                <br th:if="${session.id != null}">
+                <div th:each="path: ${paths}">
+                    <div class="bg-white my-shadow">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span th:text="${path.userFirstName}"></span>
+                                <a th:href="@{'/api/user/profile/' + ${path.userId}}"><img th:src="${path.senderLogo} == null ? @{'https://t3.ftcdn.net/jpg/00/64/67/80/240_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg'} : @{'data:image/jpg;base64,'+${path.senderLogo}}" style="width: 75px; height: 75px;"/></a>
+                                <!--<i class="fa fa-user"></i><a href="@{'/api/user/profile/'+${path.userId}}" th:text="${path.userFirstName}"></a>-->
+                            </div>
+                            <div class="col-sm-8">
+                                <i class="fa fa-globe"></i><b>Starting point: </b><span th:text="${path.startingPoint}" /><br>
+                                <i class="fa fa-globe"></i><b>Destination: </b><span th:text="${path.destination}" /><br>
+                                <i class="fa fa-calendar"></i><b>Date: </b><span th:text="${#dates.format(path.departureDate, 'dd.MM.yyyy')}" /><br>
+                                <i class="fa fa-clock-o"></i><b>Time: </b><span th:text="${#dates.format(path.departureTime, 'HH:mm')}" /><br>
+                                <i class="fa fa-flag"></i><b>Country: </b> <span th:text="${path.countryName}" /><br>
+                                <i class="fa fa-money"></i><b>Payment: </b><span th:text="${path.paymentName}" />
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                 </div>
             </div>
         </div>

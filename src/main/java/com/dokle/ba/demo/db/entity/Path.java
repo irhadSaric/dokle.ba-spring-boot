@@ -87,6 +87,13 @@ import java.util.Date;
                         @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Path.class)
                 },
                 resultClasses = { Path.class }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "getAllForHomePage",
+                procedureName = "GET_ALL_FOR_HOME_PAGE",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Object.class)
+                }
         )
 })
 public class Path extends BaseEntity {

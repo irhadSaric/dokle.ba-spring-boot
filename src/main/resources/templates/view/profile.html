@@ -22,7 +22,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" th:href="@{/home}">
                     <i class="fa fa-home"></i>
                     Home
@@ -90,7 +90,7 @@
                     <span th:text="${details.country.name}"></span>
                 </div>
                 <div class="data" th:if="${session.id != user.id and details.city != null}">
-                    <i class="fa fa-globe"></i>
+                    <i class="fa fa-home"></i>
                     <span th:text="${details.city}"></span>
                 </div>
                 <div class="data" th:if="${session.id != user.id and details.phoneNumber != null}">
@@ -202,6 +202,7 @@
                 </div>
             </div>
             <br th:if="${session.id != null and session.id == user.id}">
+            <div class="bg-white my-shadow" th:if="${#lists.isEmpty(paths)}" style="padding: 10px;">User has not added any paths yet</div>
             <div th:each="path: ${paths}">
                 <div class="bg-white my-shadow">
                     <i class="fa fa-globe"></i><b>Starting point: </b><span th:text="${path.startingPoint}" /><br>

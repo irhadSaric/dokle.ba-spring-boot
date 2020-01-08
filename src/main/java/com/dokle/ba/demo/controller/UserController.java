@@ -82,7 +82,7 @@ public class UserController {
         LoginResponse loginResponse = userService.login(request);
         if(loginResponse != null && loginResponse.isPassed()){
             session.setAttribute("id", loginResponse.getUser().getId());
-            response.sendRedirect("/home");
+            response.sendRedirect("/home2");
         }
         else{
             //return false;//"/api/user/login?message=Wrong email or password or not activated";
@@ -130,9 +130,8 @@ public class UserController {
         if(details.getAvatar() != null){
             image = Base64.getEncoder().encodeToString(details.getAvatar());
         }
-        //System.out.println(details);
         List<ImpressionResponse> impressionResponseList = impressionService.getAllImpressionsForUser(id);
-        System.out.println(impressionResponseList);
+
         modelAndView.setViewName("view/profile");
         modelAndView.addObject("user", user);
         modelAndView.addObject("impressions", impressionResponseList);
@@ -142,7 +141,6 @@ public class UserController {
         modelAndView.addObject("countries", countries);
         modelAndView.addObject("path", pathDTO);
         modelAndView.addObject("payments", payments);
-        System.out.println(paths);
         modelAndView.addObject("paths", paths);
         //modelAndView.addObject("impressions",)
         return modelAndView;
