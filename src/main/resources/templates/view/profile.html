@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/style.css}"/>
     <script th:src="@{/webjars/jquery/3.4.1/dist/jquery.js}"></script>
     <script th:src="@{/webjars/popper.js/1.16.0/dist/umd/popper.js}"></script>
@@ -69,7 +69,8 @@
         <div class="col-sm-3">
             <div class="bg-white my-shadow">
                 <!--<img src="https://t3.ftcdn.net/jpg/00/64/67/80/240_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg" style="width: 100%;"/>-->
-                <img  th:src="${avatar} == null ? @{'https://t3.ftcdn.net/jpg/00/64/67/80/240_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg'} : @{'data:image/jpg;base64,'+${avatar}}" style="width: 100%;"/>
+                <!--<img  th:src="${avatar} == null ? @{'https://t3.ftcdn.net/jpg/00/64/67/80/240_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg'} : @{'data:image/jpg;base64,'+${avatar}}" style="width: 100%;"/>-->
+                <img  th:src="${avatar} == null ? @{/default.jpg} : @{'data:image/jpg;base64,'+${avatar}}" style="width: 100%;"/>
                 <div th:if="${session.id == user.id}">
                     <form th:action="@{'/api/details/change/avatar/'+${session.id}}" enctype="multipart/form-data" method="post">
                         <input type="file" name="file" />
@@ -139,7 +140,7 @@
                 <div th:each="impression: ${impressions}">
                     <div class="impression">
                         <div class="sender-information">
-                            <a th:href="@{'/api/user/profile/'+${impression.senderId}}"><img  th:src="${impression.senderLogo} == null ? @{'https://t3.ftcdn.net/jpg/00/64/67/80/240_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg'} : @{'data:image/jpg;base64,'+${impression.senderLogo}}" style="width: 50px; height:50px"/></a>
+                            <a th:href="@{'/api/user/profile/'+${impression.senderId}}"><img  th:src="${impression.senderLogo} == null ? @{/default.jpg} : @{'data:image/jpg;base64,'+${impression.senderLogo}}" style="width: 50px; height:50px"/></a>
                             <b th:text="${impression.senderFirstName} + ':'"></b>
                             <p th:utext="${impression.impression}"></p>
                         </div>

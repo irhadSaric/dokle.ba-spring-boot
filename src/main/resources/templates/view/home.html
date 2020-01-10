@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.css}"/>
     <link type="text/css" rel="stylesheet" th:href="@{/style.css}"/>
     <script th:src="@{/webjars/jquery/3.4.1/dist/jquery.js}"></script>
     <script th:src="@{/webjars/popper.js/1.16.0/dist/umd/popper.js}"></script>
@@ -72,10 +72,34 @@
                     Filter
                 </div>
                 <hr>
-                <div class="create-path">
-                    <i class="fa fa-filter"></i>
-                    Filter
-                </div>
+                <form method="post" action="@{/api/home/filter}">
+                    <div class="form-group">
+                        <label for="startingPointFilter">Starting point</label>
+                        <input type="text" class="form-control" id="startingPointFilter" placeholder="Starting point">
+                    </div>
+                    <div class="form-group">
+                        <label for="destinationFilter">Destination</label>
+                        <input type="text" class="form-control" id="destinationFilter" placeholder="Destination">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateinputFilter">Date</label>
+                        <input type="datetime-local" class="form-control" id="dateinputFilter">
+                    </div>
+                    <div class="form-group">
+                        <label for="countryinputFilter">Country</label>
+                        <select class="form-control" id="countryinputFilter">
+                            <option th:each="country_param : ${countries}" th:value="${country_param.id}" th:text="${country_param.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentinputFilter">Payment</label>
+                        <select class="form-control" id="paymentinputFilter">
+                            <option th:each="payment_param : ${payments}" th:value="${payment_param.id}" th:text="${payment_param.name}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Submit</button>
+                </form>
+                <br>
             </div>
             <div class="col-sm-8 offset-sm-1">
                 <a th:if="${session.id != null}" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="no-underline bg-white my-shadow">
@@ -121,7 +145,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <span th:text="${path.userFirstName}"></span>
-                                <a th:href="@{'/api/user/profile/' + ${path.userId}}"><img th:src="${path.senderLogo} == null ? @{'https://t3.ftcdn.net/jpg/00/64/67/80/240_F_64678017_zUpiZFjj04cnLri7oADnyMH0XBYyQghG.jpg'} : @{'data:image/jpg;base64,'+${path.senderLogo}}" style="width: 75px; height: 75px;"/></a>
+                                <a th:href="@{'/api/user/profile/' + ${path.userId}}"><img th:src="${path.senderLogo} == null ? @{/default.jpg} : @{'data:image/jpg;base64,'+${path.senderLogo}}" style="width: 75px; height: 75px;"/></a>
                                 <!--<i class="fa fa-user"></i><a href="@{'/api/user/profile/'+${path.userId}}" th:text="${path.userFirstName}"></a>-->
                             </div>
                             <div class="col-sm-8">
