@@ -191,4 +191,72 @@ public class PathRepository {
         }
         return pathResponses;
     }
+
+    @Transactional
+    public List<PathResponse> filterAllForHomePageV2(PathDTO pathDTO) throws SQLException {
+        String date_in = null;
+        String time_in = null;
+        if (pathDTO.getDate() != null){
+            date_in = new Timestamp(pathDTO.getDate().getTime()).toString();
+        }
+        if(pathDTO.getTime() != null){
+            time_in = new Timestamp(pathDTO.getTime().getTime()).toString();
+        }
+        if(pathDTO.getDestination().equals(""))
+        {
+            pathDTO.setDestination(null);
+        }
+        if(pathDTO.getStartingPoint().equals("")){
+            pathDTO.setStartingPoint(null);
+        }
+        List result = entityManager.createNamedStoredProcedureQuery("filterAllForHomePageV2")
+                .setParameter("starting_point_in", pathDTO.getStartingPoint())
+                .setParameter("destination_in", pathDTO.getDestination())
+                .setParameter("departure_date_in", date_in)
+                .setParameter("departure_time_in", time_in)
+                .setParameter("country_in", pathDTO.getCountry())
+                .setParameter("payment_in", pathDTO.getPayment())
+                .getResultList();
+
+        List<PathResponse> pathResponses = new ArrayList<>();
+
+
+        for (Object obj: result){
+            Object[] fields = (Object[]) obj;
+            BigDecimal pathId = (BigDecimal) fields[0];
+            Timestamp departureDate = (Timestamp) fields[1];
+            String destination = (String) fields[2];
+            String startingPoint = (String) fields[3];
+            Timestamp departureTime = (Timestamp) fields[4];
+            BigDecimal countryId = (BigDecimal) fields[5];
+            BigDecimal paymentId = (BigDecimal) fields[6];
+            String countryName = (String) fields[7];
+            String paymentName = (String) fields[8];
+            String userFirstName = (String) fields[9];
+            BigDecimal userId = (BigDecimal) fields[10];
+            Blob avatar = (Blob) fields[11];
+
+            byte[] avatarByte;
+            PathResponse pathResponse = new PathResponse();
+            if(avatar != null){
+                avatarByte = avatar.getBytes(1, (int) avatar.length());
+                pathResponse.setSenderLogo(Base64.getEncoder().encodeToString(avatarByte));
+            }
+
+            pathResponse.setPathId(pathId.longValue());
+            pathResponse.setDepartureDate(departureDate);
+            pathResponse.setDestination(destination);
+            pathResponse.setStartingPoint(startingPoint);
+            pathResponse.setDepartureTime(departureTime);
+            pathResponse.setCountryId(countryId.shortValueExact());
+            pathResponse.setPaymentId(paymentId.shortValueExact());
+            pathResponse.setCountryName(countryName);
+            pathResponse.setPaymentName(paymentName);
+            pathResponse.setUserFirstName(userFirstName);
+            pathResponse.setUserId(userId.longValue());
+            pathResponses.add(pathResponse);
+        }
+
+        return pathResponses;
+    }
 }

@@ -10,10 +10,7 @@ import com.dokle.ba.demo.service.dtos.PathDTO;
 import com.dokle.ba.demo.service.dtos.PathResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -59,14 +56,32 @@ public class HomeController {
         return modelAndView;
     }
 
+    @PostMapping("/api/home/filter")
+    public void filterPaths(PathDTO path, HttpSession session, HttpServletResponse response){
+        System.out.println(path);
+        try {
+            response.sendRedirect("/proslo");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @GetMapping("/home2")
-    public ModelAndView home2(HttpSession session, HttpServletResponse response) throws IOException {
+    public ModelAndView home2(HttpSession session, HttpServletResponse response,
+                              PathDTO pathDTO) throws IOException {
         if(session.getAttribute("id") != null){
             ModelAndView modelAndView = new ModelAndView();
+            List<PathResponse> pathResponse;
             PathDTO path = new PathDTO();
+            if(pathDTO.getPayment() == null && pathDTO.getCountry() == null){
+                pathResponse = pathService.getAllForHomePage();
+            }
+            else {
+                //path = pathDTO;
+                pathResponse = pathService.filterPathsForHomePage(pathDTO);
+            }
             List<Country> countries = detailsService.getCountries();
             List<Payment> payments = detailsService.getPayments();
-            List<PathResponse> pathResponse = pathService.getAllForHomePage();
 
             modelAndView.setViewName("view/home");
             modelAndView.addObject("path", path);

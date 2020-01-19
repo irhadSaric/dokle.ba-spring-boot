@@ -46,4 +46,13 @@ public class PathService {
             return null;
         }
     }
+
+    public List<PathResponse> filterPathsForHomePage(PathDTO pathDTO) {
+        try{
+            return pathRepository.filterAllForHomePageV2(pathDTO);
+        }
+        catch (NoResultException | SQLException exc){
+            return null;
+        }
+    }
 }

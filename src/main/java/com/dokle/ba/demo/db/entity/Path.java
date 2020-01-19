@@ -94,6 +94,33 @@ import java.util.Date;
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Object.class)
                 }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "filterAllForHomePage",
+                procedureName = "FILTER_PATHS_TEST",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "starting_point_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "destination_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "departure_date_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "departure_time_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "country_in", type = Short.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "payment_in", type = Short.class),
+                        @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Path.class)
+                },
+                resultClasses = {Path.class}
+        ),
+        @NamedStoredProcedureQuery(
+                name = "filterAllForHomePageV2",
+                procedureName = "FILTER_PATHS_TEST_2",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "starting_point_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "destination_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "departure_date_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "departure_time_in", type = String.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "country_in", type = Short.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "payment_in", type = Short.class),
+                        @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Path.class)
+                }
         )
 })
 public class Path extends BaseEntity {
