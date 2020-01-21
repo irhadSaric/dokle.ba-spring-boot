@@ -34,7 +34,7 @@ public class HomeController {
         return modelAndView;
     }
 
-    @GetMapping("/home")
+    @GetMapping("/home2")
     public ModelAndView home(HttpSession session, HttpServletResponse response) throws IOException {
         ModelAndView modelAndView = new ModelAndView();
         PathDTO path = new PathDTO();
@@ -66,7 +66,7 @@ public class HomeController {
         }
     }
 
-    @GetMapping("/home2")
+    @GetMapping("/home")
     public ModelAndView home2(HttpSession session, HttpServletResponse response,
                               PathDTO pathDTO) throws IOException {
         if(session.getAttribute("id") != null){

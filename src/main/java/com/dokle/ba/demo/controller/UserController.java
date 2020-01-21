@@ -82,7 +82,7 @@ public class UserController {
         LoginResponse loginResponse = userService.login(request);
         if(loginResponse != null && loginResponse.isPassed()){
             session.setAttribute("id", loginResponse.getUser().getId());
-            response.sendRedirect("/home2");
+            response.sendRedirect("/home");
         }
         else{
             //return false;//"/api/user/login?message=Wrong email or password or not activated";

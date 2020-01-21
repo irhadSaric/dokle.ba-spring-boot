@@ -153,11 +153,45 @@
 
 .sender-information{
     width: 75px;
-    padding-left:10px;
+    padding:10px;
     display:inline;
 }
 
 .impression p{
     display:inline;
     word-break: break-word;
+}
+
+.message-sender{
+    width: 100%;
+    text-align: left;
+}
+
+.message-sender-information{
+    display: inline;
+}
+
+
+.my-message{
+    padding: 5px 10px;
+}
+
+.my-sender{
+    float:left;
+    text-align:left;
+    width: 100%;
+}
+
+.my-receiver{
+    float:right;
+    text-align:right;
+    width: 100%;
+}
+
+span.my-sender{
+    background-color: red;
+}
+
+span.my-receiver{
+    background-color: blue;
 }
