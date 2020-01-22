@@ -1,6 +1,9 @@
 package com.dokle.ba.demo.db.entity;
 
+import io.swagger.models.auth.In;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +43,32 @@ import java.util.List;
                 parameters = {
                         @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
                         @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Object.class)
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "getLastMessage",
+                procedureName = "LAST_MESSAGE",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "receiver_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "sender_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.REF_CURSOR, name = "response", type = Message.class)
+                },
+                resultClasses = {Message.class}
+        ),
+        @NamedStoredProcedureQuery(
+                name = "countUnreadMessages",
+                procedureName = "COUNT_UNREAD_MESSAGES_FOR_USER",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "id_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "response", type = Long.class)
+                }
+        ),
+        @NamedStoredProcedureQuery(
+                name = "changeStatusOfMessages",
+                procedureName = "CHANGE_STATUS_OF_MESSAGES",
+                parameters = {
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "receiver_in", type = Long.class),
+                        @StoredProcedureParameter(mode = ParameterMode.IN, name = "sender_in", type = Long.class)
                 }
         )
 })

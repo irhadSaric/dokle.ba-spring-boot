@@ -5,6 +5,7 @@ import com.dokle.ba.demo.db.entity.Path;
 import com.dokle.ba.demo.db.entity.Payment;
 import com.dokle.ba.demo.db.entity.User;
 import com.dokle.ba.demo.service.DetailsService;
+import com.dokle.ba.demo.service.MessageService;
 import com.dokle.ba.demo.service.PathService;
 import com.dokle.ba.demo.service.dtos.PathDTO;
 import com.dokle.ba.demo.service.dtos.PathResponse;
@@ -26,6 +27,9 @@ public class HomeController {
 
     @Autowired
     private DetailsService detailsService;
+
+    @Autowired
+    private MessageService messageService;
 
     @GetMapping("/")
     public ModelAndView home_(){
@@ -82,7 +86,9 @@ public class HomeController {
             }
             List<Country> countries = detailsService.getCountries();
             List<Payment> payments = detailsService.getPayments();
+            Long unreadMessages = messageService.countUnreadMessages((Long) session.getAttribute("id"));
 
+            modelAndView.addObject("unread", unreadMessages);
             modelAndView.setViewName("view/home");
             modelAndView.addObject("path", path);
             modelAndView.addObject("countries", countries);

@@ -2,10 +2,8 @@ package com.dokle.ba.demo.db.repository;
 
 import com.dokle.ba.demo.db.entity.Details;
 import com.dokle.ba.demo.db.entity.Message;
-import com.dokle.ba.demo.db.entity.User;
 import com.dokle.ba.demo.service.dtos.MessageResponse;
 import com.dokle.ba.demo.service.dtos.MessageSenderResponse;
-import com.dokle.ba.demo.service.dtos.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +57,7 @@ public class MessageRepository {
         List result = entityManager.createNamedStoredProcedureQuery("getAllSendersV2")
                 .setParameter("id_in", id)
                 .getResultList();
-
+        //id -> session.id, id_out -> sender.id
         List<MessageSenderResponse> messageSenderResponses = new ArrayList<>();
         for (Object obj: result){
             Object[] fields = (Object[]) obj;
@@ -78,9 +76,31 @@ public class MessageRepository {
             {
                 messageSenderResponse.setAvatar(Base64.getEncoder().encodeToString(detail.getAvatar()));
             }
+            Long sender_id = id_out.longValue();
+
+            Message lastMessage = (Message) entityManager.createNamedStoredProcedureQuery("getLastMessage")
+                    .setParameter("receiver_in", id)
+                    .setParameter("sender_in", sender_id)
+                    .getSingleResult();
+            messageSenderResponse.setLastMessage(lastMessage);
             messageSenderResponses.add(messageSenderResponse);
         }
 
         return messageSenderResponses;
+    }
+
+    @Transactional
+    public Long countUnreadMessages(Long id) {
+        return (Long) entityManager.createNamedStoredProcedureQuery("countUnreadMessages")
+                .setParameter("id_in", id)
+                .getOutputParameterValue("response");
+    }
+
+    @Transactional
+    public void changeStatusOfMessages(Long id, Long senderId) {
+        entityManager.createNamedStoredProcedureQuery("changeStatusOfMessages")
+                .setParameter("receiver_in", id)
+                .setParameter("sender_in", senderId)
+                .execute();
     }
 }

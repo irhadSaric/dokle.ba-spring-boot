@@ -32,7 +32,7 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/api/messages/all}">
                     <i class="fa fa-envelope-o">
-                        <span class="badge badge-danger">11</span>
+                        <span th:if="${unread != 0}" class="badge badge-danger" th:text="${unread}"></span>
                     </i>
                     Messages
                 </a>

@@ -1,10 +1,7 @@
 package com.dokle.ba.demo.controller;
 
 import com.dokle.ba.demo.db.entity.*;
-import com.dokle.ba.demo.service.DetailsService;
-import com.dokle.ba.demo.service.ImpressionService;
-import com.dokle.ba.demo.service.PathService;
-import com.dokle.ba.demo.service.UserService;
+import com.dokle.ba.demo.service.*;
 import com.dokle.ba.demo.service.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -25,6 +22,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private ImpressionService impressionService;
@@ -108,7 +108,7 @@ public class UserController {
     }
 
     @GetMapping("/profile/{id}")
-    public ModelAndView profile(@PathVariable("id") Long id){
+    public ModelAndView profile(@PathVariable("id") Long id, HttpSession session){
         ModelAndView modelAndView = new ModelAndView();
         User user = findById(id);
         Details details = detailsService.getDetailsByUserId(id);
@@ -131,8 +131,10 @@ public class UserController {
             image = Base64.getEncoder().encodeToString(details.getAvatar());
         }
         List<ImpressionResponse> impressionResponseList = impressionService.getAllImpressionsForUser(id);
+        Long unreadMessages = messageService.countUnreadMessages((Long) session.getAttribute("id"));
 
         modelAndView.setViewName("view/profile");
+        modelAndView.addObject("unread", unreadMessages);
         modelAndView.addObject("user", user);
         modelAndView.addObject("impressions", impressionResponseList);
         modelAndView.addObject("details", details);

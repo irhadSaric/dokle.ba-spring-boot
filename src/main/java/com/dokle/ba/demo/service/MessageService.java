@@ -25,4 +25,12 @@ public class MessageService {
     public List<MessageSenderResponse> getAllSenders(Long id) {
         return messageRepository.getAllSenders(id);
     }
+
+    public Long countUnreadMessages(Long id) {
+        return messageRepository.countUnreadMessages(id);
+    }
+
+    public void changeStatusOfMessages(Long id, Long senderId) {
+        messageRepository.changeStatusOfMessages(id, senderId);
+    }
 }

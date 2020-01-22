@@ -1,9 +1,12 @@
 package com.dokle.ba.demo.service.dtos;
 
+import com.dokle.ba.demo.db.entity.Message;
+
 public class MessageSenderResponse {
     private Long id;
     private String firstName;
     private String avatar;
+    private Message lastMessage;
 
     public MessageSenderResponse() {
     }
@@ -41,5 +44,13 @@ public class MessageSenderResponse {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Message getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(Message lastMessage) {
+        this.lastMessage = lastMessage;
     }
 }

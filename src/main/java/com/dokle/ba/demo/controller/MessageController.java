@@ -41,18 +41,11 @@ public class MessageController {
         ModelAndView modelAndView = new ModelAndView();
         List<MessageSenderResponse> senders = messageService.getAllSenders((Long) session.getAttribute("id"));
         Message message = new Message();
-        modelAndView.setViewName("view/message");
-        modelAndView.addObject("senders", senders);
-        modelAndView.addObject("message", message);
-        return modelAndView;
-    }
+        Long unreadMessages = messageService.countUnreadMessages((Long) session.getAttribute("id"));
 
-    @GetMapping("/add/{receiverId}")
-    public ModelAndView addMessage(HttpSession session, @PathVariable("receiverId") Long receiverId){
-        ModelAndView modelAndView = new ModelAndView();
-        Message message = new Message();
         modelAndView.setViewName("view/message");
-        modelAndView.addObject("receiverId", receiverId);
+        modelAndView.addObject("unread", unreadMessages);
+        modelAndView.addObject("senders", senders);
         modelAndView.addObject("message", message);
         return modelAndView;
     }
@@ -64,7 +57,7 @@ public class MessageController {
         Long senderId = (Long) session.getAttribute("id");
         message.setSendingTime(new Timestamp(System.currentTimeMillis()));
         messageService.addMessage(receiverId, senderId, message);
-        response.sendRedirect("/api/messages/test/"+receiverId.toString());
+        response.sendRedirect("/api/messages/"+receiverId.toString());
     }
 
     @GetMapping("/{senderId}")
@@ -74,17 +67,21 @@ public class MessageController {
             response.sendRedirect("/api/user/login?message=You have to log in");
         }
         ModelAndView modelAndView = new ModelAndView();
+        messageService.changeStatusOfMessages((Long) session.getAttribute("id"), senderId);
         List<MessageSenderResponse> senders = messageService.getAllSenders((Long) session.getAttribute("id"));
         List<MessageResponse> messages = messageService.getAllMessagesForReceiver((Long) session.getAttribute("id"), senderId);
         Message message = new Message();
+        Long unreadMessages = messageService.countUnreadMessages((Long) session.getAttribute("id"));
+
         modelAndView.setViewName("view/message");
+        modelAndView.addObject("unread", unreadMessages);
         modelAndView.addObject("receiverId", senderId);
         modelAndView.addObject("senders", senders);
         modelAndView.addObject("message", message);
         modelAndView.addObject("messages", messages);
         return modelAndView;
     }
-
+    /*
     @GetMapping("/test/{senderId}")
     public ModelAndView test(HttpSession session, HttpServletResponse response,
                              @PathVariable("senderId") Long senderId) throws IOException {
@@ -101,5 +98,5 @@ public class MessageController {
         modelAndView.addObject("message", message);
         modelAndView.addObject("messages", messages);
         return modelAndView;
-    }
+    }*/
 }
