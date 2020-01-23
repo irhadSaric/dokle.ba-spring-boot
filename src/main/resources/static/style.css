@@ -195,3 +195,11 @@ span.my-sender{
 span.my-receiver{
     background-color: blue;
 }
+
+.home-user-details{
+    height: 100%;
+    width: 100%;
+    line-height: 100%;
+    margin: auto 0;
+    text-align: center;
+}
