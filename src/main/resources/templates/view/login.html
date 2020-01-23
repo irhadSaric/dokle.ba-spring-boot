@@ -7,22 +7,44 @@
     <meta charset="UTF-8">
     <link type="text/css" rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"/>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.css}"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/login.css}"/>
     <script th:src="@{/webjars/jquery/3.4.1/dist/jquery.js}"></script>
     <script th:src="@{/webjars/popper.js/1.16.0/dist/umd/popper.js}"></script>
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
     <title>Login</title>
 </head>
-<body>
-<div class="container">
-    <!--
-    <div>
-        <form action="/api/user/login" method="post">
-            <input type="text" name="email" placeholder="email"/><br>
-            <input type="password" name="password" placeholder="password"/><br>
-            <input type="submit" value="Submit" />
-        </form>
+<body class="bg-dark">
+<div id="login">
+    <div class="container">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div id="login-box" class="col-md-12">
+                    <div th:if="${message} != null" class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <span th:text="${message}"></span>
+                    </div>
+                    <form id="login-form" class="form" th:action="@{/api/user/login}" method="post">
+                        <h3 class="text-center text-secondary">Login</h3>
+                        <div class="form-group">
+                            <label for="username" class="text-dark">Email:</label><br>
+                            <input type="text" name="email" id="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="text-dark">Password:</label><br>
+                            <input type="password" name="password" id="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit" class="btn btn-secondary btn-md" value="Login">
+                            <a href="/api/user/register" class="text-info float-right">Register here</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    -->
+</div>
+<!--
+<div class="container">
     <div id="login">
         <div class="container top">
             <div id="login-row" class="row justify-content-center align-items-center">
@@ -54,6 +76,6 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 </body>
 </html>
