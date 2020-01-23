@@ -1,0 +1,13 @@
+create procedure GET_PATHS_BY_USER_ID(
+    id_in IN USERS.ID%TYPE,
+    response OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN response FOR SELECT * FROM PATHS
+        INNER JOIN USER_PATHS ON PATHS.ID = USER_PATHS.PATH_ID
+        INNER JOIN USERS ON USER_PATHS.USER_ID = USERS.ID
+        WHERE USER_ID = id_in;
+end;
+/
+

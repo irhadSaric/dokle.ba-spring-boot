@@ -1,0 +1,11 @@
+create PROCEDURE GET_STATUS_BY_NAME(
+    name_in IN STATUSES.NAME%TYPE,
+    response OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN response FOR
+        SELECT * FROM STATUSES WHERE STATUSES.NAME = name_in;
+end;
+/
+

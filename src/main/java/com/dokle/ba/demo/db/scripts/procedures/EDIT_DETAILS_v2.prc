@@ -1,0 +1,24 @@
+create PROCEDURE EDIT_DETAILS_v2(
+    id_in IN USERS.ID%TYPE,
+    city_in IN DETAILS.CITY%TYPE,
+    country_in IN DETAILS.COUNTRY_ID%TYPE,
+    phone_number_in IN DETAILS.PHONE_NUMBER%TYPE)
+    IS
+BEGIN
+
+    UPDATE DETAILS SET CITY = city_in WHERE
+            ID = (SELECT DETAIL_ID FROM USER_DETAILS WHERE USER_ID = id_in);
+
+    UPDATE DETAILS SET PHONE_NUMBER = phone_number_in WHERE
+            ID = (SELECT DETAIL_ID FROM USER_DETAILS WHERE USER_ID = id_in);
+
+    IF country_in != 0 then
+        UPDATE DETAILS SET COUNTRY_ID = country_in WHERE
+                ID = (SELECT DETAIL_ID FROM USER_DETAILS WHERE USER_ID = id_in);
+        ELSE
+            UPDATE DETAILS SET COUNTRY_ID = NULL WHERE
+                    ID = (SELECT DETAIL_ID FROM USER_DETAILS WHERE USER_ID = id_in);
+    end if;
+END;
+/
+
